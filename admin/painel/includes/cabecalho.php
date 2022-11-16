@@ -4,25 +4,30 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Sistema :: Painel</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" >
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css">
     <link href="static/style.css" rel="stylesheet">
 </head>
   <body>
     <!-- Barra de navegação -->
-<nav class="navbar navbar-default navbar-fixed-top">
-  <div class="navbar-header">
-    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#resNav">
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
+    <nav class="navbar navbar-expand-lg bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">Painel de Gerencialmento</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
     </button>
-    <a href="#" class="navbar-brand">Painel de Gerenciamento</a>
-  </div>
-  <div class="collapse navbar-collapse" id="resNav">
-    <ul class="nav navbar-nav navbar-right">
-      <li><a href="index.php">Início</a></li>
-      <li><a href="perfil.php">Perfil</a></li>
-      <li><a href="sair.php">Sair</a></li>
-    </ul>
+    <div class="collapse navbar-collapse d-flex justify-content-center" id="navbarNavDropdown">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" aria-current="page" href="index.php">Início</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="perfil.php">Perfil</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="sair.php">Sair</a>
+        </li>
+      </ul>
+    </div>
   </div>
 </nav>  <!-- Fim da barra de navegação -->
