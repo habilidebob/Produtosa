@@ -22,6 +22,29 @@ class Usuario{
 
         return $resultado;
     }
+
+    public function Cadastrar(){
+        $banco = Banco::conectar();
+        $sql = "INSERT INTO usuarios (nome_completo, email, senha) VALUES (?,?,?)";
+        $banco->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $comando = $banco->prepare($sql);
+        // Tirar o hash da senha:
+        $hash_senha = hash('sha256', $this->senha);
+        // Tratamento de erro:
+        try{
+            $comando->execute(array($this->nome_completo, $this->email, $hash_senha));
+            Banco::desconectar();
+            // Se der certo, devolve 1
+            return 1;
+        }catch(PDOException $e){
+           // return $e->getCode(); 
+           Banco::desconectar();
+           // Se der errado, devolve 0:
+           return 0;
+        }
+        
+
+    }
 }
 
 ?>

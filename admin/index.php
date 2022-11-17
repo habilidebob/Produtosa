@@ -21,10 +21,22 @@ if(isset($_POST['email']) && isset($_POST['senha'])){
 		header('Location: painel/index.php');
 		exit();
 	}
+} elseif(isset($_POST['nome_cad']) && isset($_POST['email_cad']) 
+	&& isset($_POST['senha_cad'])){
+		require('../classes/Usuario.class.php');
+		$usuario = new Usuario();
+		// Atribuir os valores nos atributos:
+		$usuario->nome_completo = $_POST['nome_cad'];
+		$usuario->email = $_POST['email_cad'];
+		$usuario->senha = $_POST['senha_cad'];
+		// Chamar o método Cadastrar() e verificar retorno:
+		if($usuario->Cadastrar() == 1){
+			echo "Usuário cadastrado com sucesso!";
+		}else{
+			echo "Erro! Este e-mail já está cadastrado!";
+		}
 
-
-
-}
+	}
 
 
 ?>
@@ -91,16 +103,16 @@ if(isset($_POST['email']) && isset($_POST['senha'])){
 									<h3 class="mb-4">Cadastro</h3>
 								</div>
 								<div class="form-group mt-3">
-									<input name="nome_completo" type="text" class="form-control" required>
-									<label class="form-control-placeholder" for="nome_completo">Nome Completo</label>
+									<input name="nome_cad" type="text" class="form-control" required>
+									<label class="form-control-placeholder" for="nome_cad">Nome Completo</label>
 								</div>	
 							<div class="form-group mt-3">
-									<input name="email" type="text" class="form-control" required>
-									<label class="form-control-placeholder" for="username">E-mail</label>
+									<input name="email_cad" type="text" class="form-control" required>
+									<label class="form-control-placeholder" for="email_cad">E-mail</label>
 								</div>
 								<div class="form-group">
-									<input name="senha" id="password-field" type="password" class="form-control" required>
-									<label class="form-control-placeholder" for="password">Senha</label>
+									<input name="senha_cad" id="password-field" type="password" class="form-control" required>
+									<label class="form-control-placeholder" for="senha_cad">Senha</label>
 									<span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"></span>
 								</div>
 								<div class="form-group">

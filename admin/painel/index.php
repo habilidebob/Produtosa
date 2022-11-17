@@ -2,6 +2,29 @@
 // Importar o arquivo sessao.php:
 require('includes/sessao.php');
 require('includes/cabecalho.php');
+
+// Trecho dos cadastros:
+
+// Verificar se a página foi carregada por POST:
+if(isset($_POST['operacao'])){
+    // Verificar qual tipo de operação será executada:
+    if($_POST['operacao'] == 1){
+        // Cadastrar categorias:
+        require('../../classes/Categoria.class.php');
+        $categoria = new Categoria();
+        $categoria->nome_categoria = $_POST['nomeCategoria'];
+
+        if($categoria->Cadastrar() == 1){
+            // sucesso!
+        }else{
+            // erro!
+        }
+    }elseif($_POST['operacao'] == 2){
+        // Cadastrar produtos:
+
+    }
+}
+
 ?>
 
 <div class="container ">
@@ -102,7 +125,10 @@ require('includes/cabecalho.php');
                         </select>
                     </div>
                     <!-- O ID do usuário deve ser obtido automaticamente pelo controle de sessão! -->
-            </div>
+                    
+                    <!-- Campo "oculto" -->
+                    <input type="hidden" name="operacao" value="2">
+                </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
                 <button type="submit" class="btn btn-primary">Cadastrar</button>
@@ -124,12 +150,14 @@ require('includes/cabecalho.php');
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="" method="">
+            <form action="index.php" method="POST">
                     <div class="mb-3">
                         <label for="nomeCategoria" class="form-label">Nome da Categoria:</label>
                         <input type="text" class="form-control" name="nomeCategoria" id="nomeCategoria" aria-describedby="categoriaHelp">
                         <div id="categoriaHelp" class="form-text">A categoria deve ser única e não deve existir no sistema.</div>
                     </div>
+            <!-- Campo "oculto" -->
+            <input type="hidden" name="operacao" value="1">
 
             </div>
             <div class="modal-footer">
