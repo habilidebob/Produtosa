@@ -3,6 +3,10 @@
 require('includes/sessao.php');
 require('includes/cabecalho.php');
 
+// Importar classes:
+require('../../classes/Categoria.class.php');
+require('../../classes/Produto.class.php');
+
 // Trecho dos cadastros:
 
 // Verificar se a página foi carregada por POST:
@@ -10,20 +14,23 @@ if(isset($_POST['operacao'])){
     // Verificar qual tipo de operação será executada:
     if($_POST['operacao'] == 1){
         // Cadastrar categorias:
-        require('../../classes/Categoria.class.php');
+        
         $categoria = new Categoria();
         $categoria->nome_categoria = $_POST['nomeCategoria'];
 
         if($categoria->Cadastrar() == 1){
-            // sucesso!
+            // sucesso:
+            echo "Categoria cadastrada com sucesso!";
         }else{
-            // erro!
+            // erro:
+            echo "Essa categoria já existe!";
         }
     }elseif($_POST['operacao'] == 2){
         // Cadastrar produtos:
 
     }
 }
+
 
 ?>
 
@@ -119,9 +126,17 @@ if(isset($_POST['operacao'])){
                         <select class="form-select" aria-label="Default select example" id="categoriaProduto" name="categoriaProduto">
                             <option selected>Escolha a categoria</option>
                             <!-- Os campos abaixo deverão ser populados automaticamente com PHP: -->
-                            <option value="1">One</option>
-                            <option value="2">Two</option>
-                            <option value="3">Three</option>
+                            <?php
+                                // Puxar as categorias do bd:
+                                $r_categorias = Categoria::Listar();
+                                // Mostrar as categorias pelo foreach:
+                                foreach($r_categorias as $linha){
+                            ?>
+
+                                <option value="<?=$linha['id']; ?>"><?=$linha['nome_categoria']; ?></option>
+
+                            <?php } ?>
+                            
                         </select>
                     </div>
                     <!-- O ID do usuário deve ser obtido automaticamente pelo controle de sessão! -->

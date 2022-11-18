@@ -1,5 +1,5 @@
 <?php
-require('Banco.class.php');
+require_once('Banco.class.php');
 
 class Categoria{
     public $id;
@@ -25,7 +25,7 @@ class Categoria{
         }
     }
 
-    public function Listar(){
+    public static function Listar(){
         $banco = Banco::conectar();
         $sql = "SELECT * FROM categorias ORDER BY nome_categoria";
         $comando = $banco->prepare($sql);
