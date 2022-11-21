@@ -39,9 +39,27 @@ class Produto{
            // Se der errado, devolve 0:
            return 0;
         }
-        
-
     }
+
+    public function Apagar(){
+        $banco = Banco::conectar();
+        $sql = "DELETE FROM produtos WHERE id = ?";
+        $banco->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $comando = $banco->prepare($sql);
+        // Tratamento de erro:
+        try{
+            $comando->execute(array($this->id));
+            Banco::desconectar();
+            // Se der certo, devolve 1
+            return 1;
+        }catch(PDOException $e){
+           // return $e->getCode(); 
+           Banco::desconectar();
+           // Se der errado, devolve 0:
+           return 0;
+        }
+    }
+
 
 }
 
