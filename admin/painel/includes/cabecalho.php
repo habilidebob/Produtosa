@@ -1,3 +1,11 @@
+<?php
+
+$sucesso = "";
+$erro = "";
+
+?>
+
+
 <!doctype html>
 <html lang="pt-br">
   <head>

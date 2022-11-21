@@ -7,6 +7,7 @@ require('includes/cabecalho.php');
 require('../../classes/Categoria.class.php');
 require('../../classes/Produto.class.php');
 
+
 // Trecho dos cadastros:
 
 // Verificar se a página foi carregada por POST:
@@ -20,14 +21,19 @@ if(isset($_POST['operacao'])){
 
         if($categoria->Cadastrar() == 1){
             // sucesso:
-            echo "Categoria cadastrada com sucesso!";
+            $sucesso = "Categoria cadastrada com sucesso!";
         }else{
             // erro:
-            echo "Essa categoria já existe!";
+            $erro = "Essa categoria já existe!";
         }
     }elseif($_POST['operacao'] == 2){
         // Cadastrar produtos:
-
+        $produto = new Produto();
+        $produto->nome = $_POST['nomeProduto'];
+        $produto->id_categoria = $_POST['categoriaProduto'];
+        $produto->id_usuario = $_SESSION['infos']['id'];
+        // Continuar...
+        
     }
 }
 
@@ -68,14 +74,21 @@ if(isset($_POST['operacao'])){
                     </tr>
                 </thead>
                 <tbody>
+
+                <?php
+
+                    $r_produtos = Produto::Listar();
+                    foreach($r_produtos as $item){
+                ?>
+
                     <tr>
-                        <th scope="row">1</th>
-                        <td><img src="https://i.imgur.com/Otno8c7.png" width="50px"></td>
-                        <td>Nome do Produto</td>
-                        <td>R$ X.xx</td>
-                        <td>Aqui encontramos as informações do produto.</td>
-                        <td>Alimentação</td>
-                        <td>Jorjão Pimpão</td>
+                        <th scope="row"><?=$item['ID']; ?></th>
+                        <td><img src="../../fotos/<?=$item['Foto']; ?>" width="50px"></td>
+                        <td><?=$item['Nome']; ?></td>
+                        <td>R$ <?=$item['Preco']; ?></td>
+                        <td><?=$item['Descricao']; ?></td>
+                        <td><?=$item['Categoria']; ?></td>
+                        <td><?=$item['Usuario']; ?></td>
                         <td>
                             <div class="d-grid gap-2">
                                 <button class="btn btn-danger btn-sm" type="button"><i class="bi bi-x-circle-fill"></i></button>
@@ -83,6 +96,9 @@ if(isset($_POST['operacao'])){
                             </div>
                         </td>
                     </tr>
+                 <?php } ?>
+
+
                 </tbody>
             </table>
         </div>
@@ -101,7 +117,7 @@ if(isset($_POST['operacao'])){
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="" method="" enctype="multipart/form-data">
+                <form action="index.php" method="POST" enctype="multipart/form-data">
                     <div class="mb-3">
                         <label for="nomeProduto" class="form-label">Nome: </label>
                         <input type="text" class="form-control" id="nomeProduto" name="nomeProduto" aria-describedby="produtoHelp">

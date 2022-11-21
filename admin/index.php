@@ -1,5 +1,8 @@
 <?php
 
+$sucesso = "";
+$erro = "";
+
 // Verificar se estão vindo informações por POST:
 if(isset($_POST['email']) && isset($_POST['senha'])){
 	require('../classes/Usuario.class.php');
@@ -13,7 +16,7 @@ if(isset($_POST['email']) && isset($_POST['senha'])){
 	$resultado = $usuario->ValidarLogin();
 
 	if(count($resultado) == 0){
-		echo "E-mail ou senha incorretos";
+		$erro = "E-mail ou senha incorretos";
 	}else{
 		// Criar sessão e redirecionar:
 		session_start();
@@ -31,14 +34,12 @@ if(isset($_POST['email']) && isset($_POST['senha'])){
 		$usuario->senha = $_POST['senha_cad'];
 		// Chamar o método Cadastrar() e verificar retorno:
 		if($usuario->Cadastrar() == 1){
-			echo "Usuário cadastrado com sucesso!";
+			$sucesso = "Usuário cadastrado com sucesso!";
 		}else{
-			echo "Erro! Este e-mail já está cadastrado!";
+			$erro = "Este e-mail já está cadastrado!";
 		}
 
 	}
-
-
 ?>
 
 
@@ -132,11 +133,28 @@ if(isset($_POST['email']) && isset($_POST['senha'])){
 	<script src="js/popper.js"></script>
 	<script src="js/bootstrap.min.js"></script>
 	<script src="js/main.js"></script>
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 	<script>
 		$('#signup').click(function(){
 			$('.signin-form').hide();
 			$('.signup').show();
 		});
+
+		<?php
+		// Alert em caso de sucesso: 
+		if($sucesso != ""){
+		?>
+		swal("Sucesso!", "<?=$sucesso; ?>", "success");
+		<?php } ?>
+
+		<?php
+		// Alert em caso de erro: 
+		if($erro != ""){
+		?>
+		swal("Erro!", "<?=$erro; ?>", "error");
+		<?php } ?>
+
+
 	</script>
 
 </body>
