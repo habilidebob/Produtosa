@@ -48,16 +48,17 @@ class Produto{
         $comando = $banco->prepare($sql);
         // Tratamento de erro:
         try{
-            $comando->execute(array($this->id));
+           $comando->execute(array($this->id));
             Banco::desconectar();
-            // Se der certo, devolve 1
-            return 1;
-        }catch(PDOException $e){
-           // return $e->getCode(); 
-           Banco::desconectar();
-           // Se der errado, devolve 0:
-           return 0;
-        }
+            // Retornar quantidade de linhas apagadas:
+            return $comando->rowCount();
+
+         }catch(PDOException $e){
+        //    // return $e->getCode(); 
+            Banco::desconectar();
+            // Se der errado, devolve -1:
+            return -1;
+         }
     }
 
 

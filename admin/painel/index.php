@@ -37,6 +37,21 @@ if(isset($_POST['operacao'])){
     }
 }
 
+// Verificar se está vindo msg por GET
+if(isset($_GET['msg'])){
+
+    $arrmsg = ['Erro ao apagar',
+                'Erro ao modificar',
+                'Item removido',
+                'Item modificado'];
+                
+    if($_GET['msg'] > 1){
+        $sucesso = $arrmsg[$_GET['msg']];
+    }else{
+        $erro = $arrmsg[$_GET['msg']];
+    }
+}
+
 
 ?>
 
@@ -91,7 +106,7 @@ if(isset($_POST['operacao'])){
                         <td><?=$item['Usuario']; ?></td>
                         <td>
                             <div class="d-grid gap-2">
-                                <button class="btn btn-danger btn-sm" type="button"><i class="bi bi-x-circle-fill"></i></button>
+                                <a href="actions/apagar.php?id=<?=$item['ID']; ?>" class="btn btn-danger btn-sm"><i class="bi bi-x-circle-fill"></i></a>
                                 <button class="btn btn-primary btn-sm" type="button"><i class="bi bi-pencil-square"></i></button>
                             </div>
                         </td>
