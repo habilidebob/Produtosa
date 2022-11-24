@@ -2,6 +2,55 @@
 // Importar o arquivo sessao.php:
 require('includes/sessao.php');
 require('includes/cabecalho.php');
+
+// Verificar se a página está sendo carregada por POST:
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    require_once('../../classes/Usuario.class.php');
+    $usuario = new Usuario();
+    $usuario->nome_completo = $_POST['nomeUsuario'];
+    $usuario->email = $_POST['emailUsuario'];
+    $usuario->id = $_SESSION['infos']['id'];
+
+    // Verificar se a pessoa QUER trocar a senha:
+    if($_POST['senhaUsuario'] != "" || $_POST['novaSenhaUsuario'] != ""
+    && $_POST['novaSenhaUsuario1'] != ""){
+        // Verificar se a senha atual está correta:
+        if(hash("sha256", $_POST['senhaUsuario']) == $_SESSION['infos']['senha']){
+            // Verificar se as novas senhas são iguais:
+            if($_POST['novaSenhaUsuario'] == $_POST['novaSenhaUsuario1']
+            && strlen($_POST['novaSenhaUsuario1'])>0){
+                // Trocar a senha:
+
+                // Atribuir a senha no atributo:
+                $usuario->senha = $_POST['novaSenhaUsuario'];
+                if($usuario->Editar() == 1){
+                    $sucesso = "Suas informações foram modificadas!";
+                    $_SESSION['infos']['senha'] = hash('sha256',$usuario->senha);
+                }else{
+                    $erro = "Houve um problema ao modificar seus dados";
+                }
+            }else{
+                $erro = "As senhas não conferem";
+            }
+        }else{
+            $erro = "Senha atual inválida!";
+        }
+    }else{
+        if($usuario->Editar() == 1){
+            $sucesso = "Suas informações foram modificadas!";
+
+        }else{
+            $erro = "Houve um problema ao modificar seus dados";
+        }
+    }
+    if($sucesso != ""){
+        // Atualizar as informações do SESSION:
+        $_SESSION['infos']['nome_completo'] = $usuario->nome_completo;
+        $_SESSION['infos']['email'] = $usuario->email;
+    }
+}
+
+
 ?>
 
 
@@ -12,7 +61,7 @@ require('includes/cabecalho.php');
         </div>
         <div class="col-8">
             <h1 class="display-3">Seu Perfil</h1>
-            <form action="" method="">
+            <form action="perfil.php" method="POST">
                 <div class="mb-3">
                     <label for="nomeUsuario" class="form-label">Nome:</label>
                     <input type="text" value="<?= $_SESSION['infos']['nome_completo'] ?>" class="form-control" name="nomeUsuario" id="nomeUsuario">

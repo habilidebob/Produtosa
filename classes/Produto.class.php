@@ -22,6 +22,19 @@ class Produto{
         return $resultado;
     }
 
+    public function BuscarPorID(){
+        $banco = Banco::conectar();
+        $sql = "SELECT * FROM view_produtos WHERE ID = ?";
+        $comando = $banco->prepare($sql);
+        $comando->execute(array($this->id));
+        // "Salvar" o resultado da consulta (tabela) na $resultado
+        $resultado = $comando->fetchAll(PDO::FETCH_ASSOC);
+
+        Banco::desconectar();
+
+        return $resultado;
+    }
+
     public function Cadastrar(){
         $banco = Banco::conectar();
         $sql = "INSERT INTO produtos (nome, preco, descricao, caminho_foto, id_categoria, id_usuario) VALUES (?,?,?,?,?,?)";

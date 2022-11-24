@@ -1,11 +1,8 @@
-<?php
-require_once('classes/Produto.class.php');
-?>
 <!doctype html>
 <html lang="en">
 
 <head>
-  <title>Página Inicial</title>
+  <title>Detalhes do Produto</title>
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -18,7 +15,7 @@ require_once('classes/Produto.class.php');
 
 <body>
 <nav class="navbar navbar-expand-sm navbar-dark" style="background-color: #00a;">
-    <a class="navbar-brand" href="#">Página Inicial</a>
+    <a class="navbar-brand" href="#">Detalhes do Produto</a>
     <button class="navbar-toggler d-lg-none" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavId" aria-controls="collapsibleNavId"
         aria-expanded="false" aria-label="Toggle navigation"></button>
     <div class="collapse navbar-collapse" id="collapsibleNavId">
@@ -33,44 +30,22 @@ require_once('classes/Produto.class.php');
 <div class="container">
     <div class="row mt-3">
         <div class="col">
-            <h1 class="display-5">Listagem de Produtos</h1>
+            <h1 class="display-5">Detalhes do Produto</h1>
         </div>
     </div>
-    <!-- Listagem de produtos: 4 por linha: -->
-    <?php
-    $cont = 0;
-    $r_produtos = Produto::Listar();
-    foreach($r_produtos as $item){
-    ?>
-    <?php
-        if($cont == 0){
-    ?>
-    <!-- Abre Linha -->
+    <!-- Detalhes do Produto selecionado: -->
     <div class="row mt-5">
-        <?php } ?>
-        <div class="col-3">
-            <div class="card">
-                <a href="#"><img class="card-img-top" src="fotos/<?=$item['Foto']; ?>" alt="Imagem"></a>
-                <div class="card-body">
-                    <h4 class="card-title"><?=$item['Nome']; ?></h4>
-                    <p class="card-text"><?=$item['Descricao']; ?>
-                        <div class="d-grid gap-2">
-                          <a href="produto.php?id=<?=$item['ID']; ?>" class="btn btn-primary">Mais detalhes...</a>
-                        </div>
-                    </p>
-                </div>
-            </div>
+        <div class="col-7">
+            <img class="rounded mx-auto d-block" src="https://i.imgur.com/cnC3irP.jpg"/>
         </div>
-        <?php
-        $cont++;
-        if($cont == 4){
-            $cont = 0;
-        ?>  
-        <!-- Fecha Linha -->
-            </div>
-        <?php } ?>
-    <?php } ?>
-
+        <div class="col-5">
+            <h2>Titulo do Produto</h2>
+            <p>Descrição do produto</p>
+            <h1 class="display-6">$9,99</h1>
+            <a href="index.php"><small class="text-muted">Voltar</small></a>
+        </div>
+    </div>
+   
 </div>
 
 <div class="container">
