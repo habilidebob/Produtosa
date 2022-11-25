@@ -63,7 +63,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // Executar o UPDATE:
         if($produto->Modificar() == 1){
-            $sucesso = "Produto modificado com sucesso!";
+            // Redirecionar:
+            header('Location: index.php?msg=3');
         }else{
             $erro = "Erro ao modificar o produto.";
         }
@@ -71,7 +72,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         
     }else{
         // Mostrar erros:
-
+        $erro = "Os seguintes erros foram encontrados: \\n";
+        foreach($arr_erros as $item){
+            $erro .= $item . "\\n";
+        }
     }
 
 }

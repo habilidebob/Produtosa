@@ -43,7 +43,7 @@ if(isset($_GET['msg'])){
     $arrmsg = ['Erro ao apagar',
                 'Erro ao modificar',
                 'Item removido',
-                'Item modificado'];
+                'Produto modificado'];
                 
     if($_GET['msg'] > 1){
         $sucesso = $arrmsg[$_GET['msg']];

@@ -89,8 +89,6 @@ class Produto{
         $comando = $banco->prepare($sql);
 
 
-        // Se der certo, devolve 1
-        return 1;
         
         // Tratamento de erro:
         try{
