@@ -39,11 +39,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
     // Se houveram erros, não executar!
-    if(count($arr_erros) > 0){
-        // Mostrar erros:
+    if(count($arr_erros) == 0){
+        // Efetuar modificação:
+        $produto->nome = $_POST['nomeProduto'];
+        $produto->preco = $_POST['precoProduto'];
+        $produto->descricao = $_POST['descricaoProduto'];
+        $produto->id_categoria = $_POST['categoriaProduto'];
+
+        // Verificar se existe a foto:
+        if(file_exists($_FILES['fotoProduto']['tmp_name'])){
+            $ext = substr($_FILES['fotoProduto']['name'], -4);
+            $novo_nome = hash_file("sha256", $_FILES['fotoProduto']['tmp_name']).$ext;
+            // Mover o arquivo:
+            if(move_uploaded_file($_FILES['fotoProduto']['tmp_name'],"../../fotos/".$novo_nome)){
+                $produto->caminho_foto = $novo_nome;
+            }else{
+                $erro = "Erro ao mover a foto";
+            }
+
+        }else{
+            $produto->caminho_foto = "";
+        }
+
+    
         
     }else{
-        // Efetuar cadastro:
+        // Mostrar erros:
 
     }
 
