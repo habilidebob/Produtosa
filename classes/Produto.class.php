@@ -74,6 +74,44 @@ class Produto{
          }
     }
 
+    public function Modificar(){
+        $banco = Banco::conectar();
+
+        $sql = "UPDATE produtos SET nome = ?, preco = ?, descricao = ?, id_categoria = ? WHERE id = ?";
+
+        // SQL caso tenha setado uma nova foto:
+        if($this->caminho_foto != ""){
+            $sql = "UPDATE produtos SET nome = ?, preco = ?, descricao = ?, id_categoria = ?, 
+        caminho_foto = ? WHERE id = ?";
+        }
+
+        $banco->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $comando = $banco->prepare($sql);
+
+
+        // Se der certo, devolve 1
+        return 1;
+        
+        // Tratamento de erro:
+        try{
+            // Execute de acordo com o comando sql:
+            if($this->caminho_foto == ""){
+                $comando->execute(array($this->nome, $this->preco, $this->descricao, $this->id_categoria, $this->id));
+            }else{
+                $comando->execute(array($this->nome, $this->preco, $this->descricao, $this->id_categoria,$this->caminho_foto , $this->id));
+            }
+            Banco::desconectar();
+            // Se der certo, devolve 1
+            return 1;
+        }catch(PDOException $e){
+           // return $e->getCode(); 
+           Banco::desconectar();
+           // Se der errado, devolve 0:
+           return 0;
+        }
+        
+    }
+
 
 }
 

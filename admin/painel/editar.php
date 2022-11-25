@@ -61,6 +61,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $produto->caminho_foto = "";
         }
 
+        // Executar o UPDATE:
+        if($produto->Modificar() == 1){
+            $sucesso = "Produto modificado com sucesso!";
+        }else{
+            $erro = "Erro ao modificar o produto.";
+        }
     
         
     }else{
