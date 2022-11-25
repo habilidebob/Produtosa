@@ -2,6 +2,52 @@
 // Importar o arquivo sessao.php:
 require('includes/sessao.php');
 require('includes/cabecalho.php');
+require('../../classes/Categoria.class.php');
+
+// Verificar se o ID está vindo pela URL
+if(isset($_GET['id'])){
+    require_once('../../classes/Produto.class.php');
+    $produto = new Produto();
+    $produto->id = $_GET['id'];
+
+    $resultado = $produto->BuscarPorID();
+}else{
+    // Retornar para index.php:
+    header('Location: index.php');
+    exit();
+}
+
+
+// Verificar se a página está sendo carregada por POST:
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+    $arr_erros = [];
+
+    // Verificar erros:
+    if($_POST['nomeProduto']== ""){
+        array_push($arr_erros, "O nome do produto está vazio!");
+    }
+    if($_POST['precoProduto']== ""){
+        array_push($arr_erros, "O preco do produto está vazio!");
+    }
+    if($_POST['descricaoProduto']== ""){
+        array_push($arr_erros, "A descrição do produto está vazia!");
+    }
+    if($_POST['categoriaProduto']== ""){
+        array_push($arr_erros, "A categoria não foi selecionada!");
+    }
+
+
+    // Se houveram erros, não executar!
+    if(count($arr_erros) > 0){
+        // Mostrar erros:
+        
+    }else{
+        // Efetuar cadastro:
+
+    }
+
+}
 
 ?>
 <div class="container">
@@ -12,19 +58,19 @@ require('includes/cabecalho.php');
     </div>
     <div class="row">
         <div class="col mw-80">
-            <form action="index.php" method="POST" enctype="multipart/form-data">
+            <form action="editar.php?id=<?=$resultado[0]["ID"] ?>" method="POST" enctype="multipart/form-data">
                 <div class="mb-3">
                     <label for="nomeProduto" class="form-label">Nome: </label>
-                    <input type="text" class="form-control" id="nomeProduto" name="nomeProduto" aria-describedby="produtoHelp">
+                    <input value="<?=$resultado[0]["Nome"] ?>" type="text" class="form-control" id="nomeProduto" name="nomeProduto" aria-describedby="produtoHelp">
                     <div id="produtoHelp" class="form-text">Nome do produto que aparecerá no sistema.</div>
                 </div>
                 <div class="mb-3">
                     <label for="precoProduto" class="form-label">Preço: </label>
-                    <input type="number" step=".01" class="form-control" id="precoProduto" name="precoProduto" aria-describedby="precoHelp">
+                    <input value="<?=$resultado[0]["Preco"] ?>" type="number" step=".01" class="form-control" id="precoProduto" name="precoProduto" aria-describedby="precoHelp">
                 </div>
                 <div class="mb-3">
                     <label for="descricaoProduto" class="form-label">Descricao: </label>
-                    <textarea class="form-control" id="descricaoProduto" name="descricaoProduto" aria-describedby="descricaoHelp"></textarea>
+                    <textarea class="form-control" id="descricaoProduto" name="descricaoProduto" aria-describedby="descricaoHelp"><?=$resultado[0]["Descricao"] ?></textarea>
                     <div id="descricaoHelp" class="form-text">A descrição do produto que será exibida logo após a imagem na página inicial.</div>
                 </div>
                 <div class="mb-3">
@@ -35,13 +81,23 @@ require('includes/cabecalho.php');
                 <div class="mb-3">
                     <label for="categoriaProduto" class="form-label">Categoria: </label>
                     <select class="form-select" aria-label="Default select example" id="categoriaProduto" name="categoriaProduto">
-                        <option selected>Escolha a categoria</option>
+                        <option>Escolha a categoria</option>
                         <!-- Os campos abaixo deverão ser populados automaticamente com PHP: -->
-                        <option value="1">Categoria 1</option>
+                        <?php
+                                // Puxar as categorias do bd:
+                                $r_categorias = Categoria::Listar();
+                                // Mostrar as categorias pelo foreach:
+                                foreach($r_categorias as $linha){
+                                    // Verificar se o produto está na categoria corrente:
+                                    if($linha['id'] == $resultado[0]["ID_Categoria"]){ ?>
+                                        <option selected value="<?=$linha['id']; ?>"><?=$linha['nome_categoria']; ?></option>
+                                    <?php }else{ ?>
+                                        <option value="<?=$linha['id']; ?>"><?=$linha['nome_categoria']; ?></option>
+                                    <?php } ?>
+                            <?php } ?>
                     </select>
                 </div>
-                <!-- Campo "oculto" -->
-                <input type="hidden" name="operacao" value="2">
+    
                 <button type="submit" class="btn btn-primary">Modificar</button>
             </form>
         </div>

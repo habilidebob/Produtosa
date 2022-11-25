@@ -107,7 +107,8 @@ if(isset($_GET['msg'])){
                         <td>
                             <div class="d-grid gap-2">
                                 <a href="actions/apagar.php?id=<?=$item['ID']; ?>" class="btn btn-danger btn-sm"><i class="bi bi-x-circle-fill"></i></a>
-                                <button class="btn btn-primary btn-sm" type="button"><i class="bi bi-pencil-square"></i></button>
+                                <a href="editar.php?id=<?=$item['ID']; ?>" class="btn btn-primary btn-sm">
+                                <i class="bi bi-pencil-square"></i></a>
                             </div>
                         </td>
                     </tr>
