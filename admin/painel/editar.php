@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if($_POST['descricaoProduto']== ""){
         array_push($arr_erros, "A descrição do produto está vazia!");
     }
-    if($_POST['categoriaProduto']== ""){
+    if($_POST['categoriaProduto'] == "-1"){
         array_push($arr_erros, "A categoria não foi selecionada!");
     }
 
@@ -112,7 +112,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <div class="mb-3">
                     <label for="categoriaProduto" class="form-label">Categoria: </label>
                     <select class="form-select" aria-label="Default select example" id="categoriaProduto" name="categoriaProduto">
-                        <option>Escolha a categoria</option>
+                        <option value="-1">Escolha a categoria</option>
                         <!-- Os campos abaixo deverão ser populados automaticamente com PHP: -->
                         <?php
                                 // Puxar as categorias do bd:

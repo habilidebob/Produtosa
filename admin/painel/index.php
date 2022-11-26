@@ -27,12 +27,58 @@ if(isset($_POST['operacao'])){
             $erro = "Essa categoria já existe!";
         }
     }elseif($_POST['operacao'] == 2){
+
+        $arr_erros = [];
+
+        // Verificar erros:
+        if($_POST['nomeProduto']== ""){
+            array_push($arr_erros, "O nome do produto está vazio!");
+        }
+        if($_POST['precoProduto']== ""){
+            array_push($arr_erros, "O preco do produto está vazio!");
+        }
+        if($_POST['descricaoProduto']== ""){
+            array_push($arr_erros, "A descrição do produto está vazia!");
+        }
+        if($_POST['categoriaProduto'] == "-1"){
+            array_push($arr_erros, "A categoria não foi selecionada!");
+        }
+        if(count($arr_erros) == 0){
         // Cadastrar produtos:
-        $produto = new Produto();
-        $produto->nome = $_POST['nomeProduto'];
-        $produto->id_categoria = $_POST['categoriaProduto'];
-        $produto->id_usuario = $_SESSION['infos']['id'];
-        // Continuar...
+            $produto = new Produto();
+            $produto->nome = $_POST['nomeProduto'];
+            $produto->id_categoria = $_POST['categoriaProduto'];
+            $produto->id_usuario = $_SESSION['infos']['id'];
+            $produto->preco = $_POST['precoProduto'];
+            $produto->descricao = $_POST['descricaoProduto'];
+            
+            if(file_exists($_FILES['fotoProduto']['tmp_name'])){
+                $ext = substr($_FILES['fotoProduto']['name'], -4);
+                $novo_nome = hash_file("sha256", $_FILES['fotoProduto']['tmp_name']).$ext;
+                // Mover o arquivo:
+                if(move_uploaded_file($_FILES['fotoProduto']['tmp_name'],"../../fotos/".$novo_nome)){
+                    $produto->caminho_foto = $novo_nome;
+                }else{
+                    $erro = "Erro ao mover a foto";
+                }
+
+            }else{
+                $produto->caminho_foto = "semfoto.png";
+            }
+            // Cadastrar
+            if($produto->Cadastrar() == 1){
+                $sucesso = "Produto cadastrado com sucesso!";
+            }else{
+                $erro = "Erro ao cadastrar o produto";
+            }
+
+        }else{
+            // Mostrar erros:
+            $erro = "Os seguintes erros foram encontrados: \\n";
+            foreach($arr_erros as $item){
+                $erro .= $item . "\\n";
+            }
+         }
         
     }
 }
@@ -156,7 +202,7 @@ if(isset($_GET['msg'])){
                     <div class="mb-3">
                         <label for="categoriaProduto" class="form-label" >Categoria: </label>
                         <select class="form-select" aria-label="Default select example" id="categoriaProduto" name="categoriaProduto">
-                            <option selected>Escolha a categoria</option>
+                            <option selected value="-1">Escolha a categoria</option>
                             <!-- Os campos abaixo deverão ser populados automaticamente com PHP: -->
                             <?php
                                 // Puxar as categorias do bd:
